@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PREPARA 360 — Regional 15 (Distritos 15-01 al 15-06)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --accent: #f59e0b;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        aside {
+            width: 290px;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+
+        .logo-area {
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo-area i {
+            font-size: 28px;
+            color: var(--accent);
+        }
+
+        .logo-area h1 {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 16px 12px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .nav-links li {
+            padding: 11px 14px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            font-size: 13.5px;
+            transition: all 0.2s ease;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .nav-links li:hover, .nav-links li.active {
+            background-color: var(--secondary);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .nav-links li i {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            padding: 16px 32px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .district-switcher {
+            display: flex;
+            background: var(--bg-color);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .district-btn {
+            background: transparent;
+            border: none;
+            padding: 8px 12px;
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .district-btn.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .center-selector {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 35%;
+        }
+
+        .center-selector label {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-main);
+            white-space: nowrap;
+        }
+
+        .center-selector select {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background-color: var(--bg-color);
+            font-size: 14px;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .user-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .user-info p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .content-body {
+            padding: 32px;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .panel-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            margin-bottom: 24px;
+        }
+
+        .panel-card h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .info-item {
+            background-color: var(--bg-color);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .info-item label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .info-item span {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 14px;
+            outline: none;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary);
+            background-color: #fff;
+        }
+
+        input[type="file"].form-control {
+            padding: 9px 14px;
+            cursor: pointer;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover { background-color: #2563eb; }
+        .btn-success { background-color: var(--success); }
+        .btn-success:hover { background-color: #059669; }
+        .btn-dark { background-color: var(--primary); }
+        .btn-dark:hover { background-color: #112255; }
+        .btn-warning { background-color: #d97706; color: white; }
+        .btn-warning:hover { background-color: #b45309; }
+
+        .item-list {
+            list-style: none;
+            margin-top: 16px;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background-color: var(--bg-color);
+        }
+
+        .list-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            overflow: hidden;
+        }
+
+        .process-img-preview {
+            max-width: 120px;
+            max-height: 80px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            margin-top: 8px;
+            display: block;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--text-muted);
+            transition: color 0.2s;
+            flex-shrink: 0;
+        }
+        .icon-btn.delete:hover { color: var(--danger); }
+        .icon-btn.view:hover { color: var(--secondary); }
+
+        /* Estilos específicos para la Tabla de Evaluación */
+        .eval-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 13px;
+        }
+
+        .eval-table th, .eval-table td {
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .eval-table th {
+            background-color: #f1f5f9;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .eval-table select {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background-color: #fff;
+            font-size: 12px;
+            width: 100%;
+        }
+
+        .score-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 12px;
+            background-color: #e2e8f0;
+            color: var(--primary);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 32px;
+            border-radius: 12px;
+            width: 720px;
+            max-width: 95%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .report-preview-box {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            overflow-y: auto;
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .modal-report-img {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 8px;
+            margin-top: 16px;
+            border: 1px solid var(--border);
+            display: block;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #reportModal, #reportModal *, .report-preview-box, .report-preview-box * {
+                visibility: visible;
+            }
+            #reportModal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: auto;
+                background: white !important;
+            }
+            .modal-content {
+                box-shadow: none;
+                width: 100% !important;
+                max-height: none !important;
+                padding: 0;
+            }
+            .modal-content > div:last-child {
+                display: none;
+            }
+            .report-preview-box {
+                border: none;
+                padding: 0;
+                max-height: none;
+                overflow: visible;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; height: auto; }
+            aside { width: 100%; height: auto; }
+            main { height: auto; overflow: visible; }
+            header { flex-direction: column; gap: 12px; align-items: stretch; }
+            .center-selector { width: 100%; }
+            .eval-table { display: block; overflow-x: auto; }
+        }
+    
+        .sidebar-footer{display:flex;flex-direction:column;gap:8px}
+        .save-state{font-size:12px;line-height:1.4;text-align:left}.save-state.dirty{color:#fcd34d}.save-state.ok{color:#6ee7b7}
+        .btn-accent{background:var(--accent);justify-content:center;width:100%}.btn-accent:hover{background:#d97706}
+        .btn-ghost{background:rgba(255,255,255,.12);flex:1;justify-content:center;padding:8px;font-size:12px}.btn-ghost:hover{background:rgba(255,255,255,.22)}
+        .btn-sm{padding:6px 10px;font-size:12px}.btn-light{background:#e2e8f0;color:var(--text-main)}.btn-light:hover{background:#cbd5e1}
+        .btn-danger{background:var(--danger)}.btn-danger:hover{background:#dc2626}
+        .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+        .toolbar input[type=search]{flex:1;min-width:160px;width:auto;padding:9px 12px}
+        .chk{font-size:12px;font-weight:500;display:inline-flex;gap:6px;align-items:center;cursor:pointer;color:var(--text-muted)}
+        .acts{display:flex;gap:6px;align-items:center;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+        .list-item.arch{opacity:.55;border-style:dashed}.list-item-left>div{min-width:0}
+        .icon-btn.edit:hover{color:var(--accent)}.icon-btn:disabled{opacity:.25;cursor:default}
+        .muted{font-size:12px;color:var(--text-muted);display:block}.body{font-size:13px;margin-top:4px;white-space:pre-line}
+        .lnk{font-size:12px;color:var(--success);display:inline-block;margin:4px 10px 0 0;word-break:break-all}
+        .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;background:#e2e8f0;color:var(--primary);border:0}
+        .board{display:grid;grid-template-columns:repeat(6,minmax(220px,1fr));gap:12px;overflow-x:auto;padding-bottom:8px}
+        .col{background:var(--bg-color);border:1px solid var(--border);border-radius:10px;padding:10px;min-height:120px}
+        .col h4{font-size:13px;color:var(--primary);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+        .pcard{background:#fff;border:1px solid var(--border);border-left:4px solid #94a3b8;border-radius:8px;padding:10px;margin-bottom:8px;font-size:13px}
+        .pcard.st-1{border-left-color:var(--accent)}.pcard.st-2{border-left-color:var(--success)}.pcard.arch{opacity:.5}
+        .pcard .badge{cursor:pointer;background:#f1f5f9}
+        .progress{height:10px;background:#e2e8f0;border-radius:6px;overflow:hidden;margin:6px 0 14px}.progress i{display:block;height:100%;background:var(--success)}
+        .steps{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;font-size:12px;color:var(--text-muted)}
+        .modal-body{overflow-y:auto;padding:2px 4px}
+        #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#065f46;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:300}
+        #toast.show{opacity:1}#toast.err{background:#b91c1c}
+        .help{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:16px}
+#login{position:fixed;inset:0;background:linear-gradient(135deg,#1e3a8a,#3b82f6);display:flex;align-items:center;justify-content:center;z-index:500}
+.lbox{background:#fff;padding:36px;border-radius:14px;width:340px;max-width:92%;text-align:center;display:flex;flex-direction:column;gap:12px}
+.lbox>i{font-size:34px;color:var(--accent)}.lbox h2{color:var(--primary)}.lbox p{color:var(--text-muted);font-size:13px}#lerr{color:var(--danger);font-size:12px;min-height:16px}
+</style>
+</head>
+<body>
+<aside>
+ <div>
+  <div class="logo-area"><i class="fa-solid fa-laptop-code"></i><h1>PREPARA 360</h1></div>
+  <ul class="nav-links"><li class=active onclick="switchView('panel360', this)"><i class="fa-solid fa-house"></i> Panel 360</li><li onclick="switchView('dinamizadores', this)"><i class="fa-solid fa-chalkboard-user"></i> Dinamizadores TIC</li><li onclick="switchView('aulas', this)"><i class="fa-solid fa-brain"></i> Aulas Inteligentes</li><li onclick="switchView('contenido', this)"><i class="fa-solid fa-clapperboard"></i> Contenido Educativo</li><li onclick="switchView('monitoreo', this)"><i class="fa-solid fa-chart-line"></i> Monitoreo y Evidencias</li><li onclick="switchView('planes', this)"><i class="fa-solid fa-rocket"></i> Planes y Procesos</li><li onclick="switchView('evaluacion', this)"><i class="fa-solid fa-clipboard-check"></i> Evaluación Aula Inteligente</li></ul>
+ </div>
+ <div class="sidebar-footer">
+  <div id="saveState" class="save-state"></div>
+  <button class="btn btn-accent" onclick="saveFile()" title="Ctrl + S"><i class="fa-solid fa-floppy-disk"></i> Guardar en el archivo</button>
+  <div style="display:flex;gap:6px"><button class="btn btn-ghost" onclick="exportJSON()" title="Descargar copia de seguridad"><i class="fa-solid fa-download"></i> Respaldo</button><button class="btn btn-ghost" onclick="$('importFile').click()" title="Restaurar desde un respaldo"><i class="fa-solid fa-upload"></i> Restaurar</button></div>
+  <input type="file" id="importFile" accept=".json" hidden onchange="importJSON(this)">
+  <div style="display:flex;gap:6px"><button class="btn btn-ghost" onclick="changePwd()" title="Cambiar la contraseña de acceso"><i class="fa-solid fa-key"></i> Contraseña</button><button class="btn btn-ghost" onclick="logout()" title="Cerrar sesión"><i class="fa-solid fa-right-from-bracket"></i> Salir</button></div>
+  <p>Regional 15</p>
+ </div>
+</aside>
+<main>
+<header>
+ <div class="district-switcher"><button class="district-btn" id="btnDist1501" onclick="switchDistrict('1501')">15-01</button><button class="district-btn" id="btnDist1502" onclick="switchDistrict('1502')">15-02</button><button class="district-btn" id="btnDist1503" onclick="switchDistrict('1503')">15-03</button><button class="district-btn" id="btnDist1504" onclick="switchDistrict('1504')">15-04</button><button class="district-btn active" id="btnDist1505" onclick="switchDistrict('1505')">15-05</button><button class="district-btn" id="btnDist1506" onclick="switchDistrict('1506')">15-06</button></div>
+ <div class="center-selector"><label for="centerSelect"><i class="fa-solid fa-location-dot"></i> Centro:</label><select id="centerSelect" onchange="changeCenter()"></select></div>
+ <div class="user-profile"><div class="user-avatar">E</div><div class="user-info"><h4>Edwin Ruiz</h4><p>Técnico Regional</p></div></div>
+</header>
+<div class="content-body">
+<section id="panel360" class="view-section active"><div class="panel-card">
+ <div class="toolbar" style="justify-content:space-between"><h2 style="margin:0"><i class="fa-solid fa-house"></i> Panel 360 — Resumen del Centro</h2>
+ <div class="acts"><button class="btn btn-sm" onclick="openForm('centro',cur.c)"><i class="fa-solid fa-pen"></i> Editar ficha</button><button class="btn btn-sm btn-success" onclick="openForm('centro')"><i class="fa-solid fa-plus"></i> Nuevo centro</button><button class="btn btn-sm btn-danger" onclick="delCentro()"><i class="fa-solid fa-trash"></i> Eliminar centro</button></div></div>
+ <div class="info-grid">
+  <div class="info-item"><label>Código del Centro</label><span id="lbl_codigo"></span></div>
+  <div class="info-item"><label>Nombre del Centro</label><span id="lbl_nombre"></span></div>
+  <div class="info-item"><label>Director(a)</label><span id="lbl_director"></span></div>
+  <div class="info-item"><label>Tanda / Modalidad</label><span id="lbl_tanda"></span></div>
+  <div class="info-item"><label>Teléfono de Contacto</label><span id="lbl_telefono"></span></div>
+  <div class="info-item" style="grid-column:span 2"><label>Dirección / Ubicación</label><span id="lbl_direccion"></span></div>
+ </div>
+ <h3 style="font-size:15px;margin:22px 0 10px;color:var(--primary)">Registros de este centro</h3><div class="info-grid" id="counts"></div>
+</div></section>
+<section id="dinamizadores" class="view-section"><div class="panel-card"><h2><i class="fa-solid fa-chalkboard-user"></i> Dinamizadores TIC — Registro y Asignación</h2><p style="color:var(--text-muted);margin-bottom:16px;font-size:14px">Registro del dinamizador, contacto, tareas y seguimiento.</p><div id="crud-tasks"></div></div></section>
+
+<section id="aulas" class="view-section"><div class="panel-card"><h2><i class="fa-solid fa-brain"></i> Aulas Inteligentes PREPARA</h2><p style="color:var(--text-muted);margin-bottom:16px;font-size:14px">Aulas virtuales, recursos interactivos e IA.</p><div id="crud-aulas"></div></div></section>
+
+<section id="contenido" class="view-section"><div class="panel-card"><h2><i class="fa-solid fa-clapperboard"></i> Contenido Educativo</h2><p style="color:var(--text-muted);margin-bottom:16px;font-size:14px">Biblioteca de documentos, videos, infografías, podcasts y enlaces. Los archivos quedan guardados dentro del HTML.</p><div id="crud-resources"></div></div></section>
+
+<section id="monitoreo" class="view-section"><div class="panel-card"><h2><i class="fa-solid fa-chart-line"></i> Monitoreo y Evidencias</h2><p style="color:var(--text-muted);margin-bottom:16px;font-size:14px">Pulsa «Nuevo informe» para redactarlo. Luego, en «Ver / Descargar», lo obtienes en Word o PDF.</p><div id="crud-reports"></div></div></section>
+
+<section id="planes" class="view-section"><div class="panel-card"><h2><i class="fa-solid fa-rocket"></i> Planes y Procesos</h2><p style="color:var(--text-muted);margin-bottom:16px;font-size:14px">Planificar → Asignar → Ejecutar → Evidenciar → Evaluar → Reportar</p><div class="help"><b>Cómo usarlo:</b> pulsa «+ Agregar» en la fase que corresponda · usa ◀ ▶ para mover una actividad de fase · pulsa su estado (Pendiente / En curso / Completado) para cambiarlo · ✏️ edita, 📦 archiva, 🗑 elimina.</div>
+<div class="toolbar"><button class="btn" onclick="openForm('processes')"><i class="fa-solid fa-plus"></i> Nueva actividad</button><button class="btn btn-warning" onclick="procReport()"><i class="fa-solid fa-file-export"></i> Informe de procesos (Word / PDF)</button><label class="chk"><input type="checkbox" onchange="UI.processes.arch=this.checked;renderBoard()"> Ver archivados</label></div>
+<div id="procSummary"></div><div class="board" id="board"></div></div></section>
+
+<section id="evaluacion" class="view-section"><div class="panel-card">
+ <h2><i class="fa-solid fa-clipboard-check"></i> Instrumento de Evaluación — Aulas Inteligentes</h2>
+ <p style="color:var(--text-muted);margin-bottom:16px;font-size:14px">Rúbrica pedagógica y tecnológica para calificar las Aulas Inteligentes.</p>
+ <div id="evalEditBar" class="help" style="display:none"></div>
+ <div class="toolbar" style="justify-content:space-between"><div><strong style="font-size:14px;color:var(--primary)">Puntaje:</strong> <span class="score-badge" id="totalScore"></span></div>
+ <div class="acts"><button class="btn btn-light" id="btnEvalCancel" style="display:none" onclick="resetEval()">Cancelar edición</button><button class="btn btn-success" id="btnEval" onclick="saveEval()"><i class="fa-solid fa-floppy-disk"></i> Guardar evaluación</button></div></div>
+ <table class="eval-table"><thead><tr><th style="width:25%">Criterio</th><th style="width:45%">Indicadores de logro</th><th style="width:15%">Puntuación</th><th style="width:15%">Valoración</th></tr></thead><tbody id="evalBody"></tbody></table>
+ <div class="form-group" style="margin-top:20px"><label for="evalNotes"><i class="fa-solid fa-comment-dots"></i> Observaciones y recomendaciones de mejora:</label><textarea id="evalNotes" class="form-control"></textarea></div>
+ <h3 style="font-size:16px;margin:24px 0 12px;color:var(--primary)"><i class="fa-solid fa-clock-rotate-left"></i> Historial de evaluaciones de este centro</h3>
+ <div id="crud-evals"></div>
+</div></section>
+</div></main>
+<div class="modal" id="formModal"><div class="modal-content"><h3 id="formTitle" style="font-size:18px;color:var(--primary);margin-bottom:14px"></h3><div class="modal-body" id="formFields"></div>
+ <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;border-top:1px solid var(--border);padding-top:14px"><button class="btn btn-light" onclick="closeForm()">Cancelar</button><button class="btn btn-success" onclick="saveForm()"><i class="fa-solid fa-floppy-disk"></i> Guardar</button></div></div></div>
+<div class="modal" id="reportModal"><div class="modal-content"><h3 style="font-size:18px;color:var(--primary);margin-bottom:12px"><i class="fa-solid fa-file-lines"></i> Vista previa del informe</h3>
+ <div class="report-preview-box" id="printableReportArea"></div>
+ <div style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:16px"><button class="btn btn-warning" onclick="exportWord(curDoc)"><i class="fa-solid fa-file-word"></i> Descargar Word</button><button class="btn btn-success" onclick="exportPDF(curDoc)"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</button><button class="btn btn-dark" onclick="window.print()"><i class="fa-solid fa-print"></i> Imprimir</button><button class="btn btn-light" onclick="closeModal()">Cerrar</button></div></div></div>
+<div id="toast"></div>
+<div id="login"><div class="lbox"><i class="fa-solid fa-lock"></i><h2>PREPARA 360</h2><p>Regional 15 — Acceso restringido</p><input type="text" id="username" class="form-control" placeholder="Usuario" autocomplete="username" value="" onkeydown="if(event.key==='Enter')doLogin()"><input type="password" id="pwd" class="form-control" placeholder="Contraseña" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"><div id="lerr"></div><button class="btn btn-accent" onclick="doLogin()"><i class="fa-solid fa-right-to-bracket"></i> Entrar</button></div></div>
+<script id="prepara-data" type="application/json">{"docId":"p360-8472a2f89e","updatedAt":0,"auth":{"username":"Edwin Ruiz","salt":"370a37b2e7cf5f81","hash":"39425a5151304d57e6de4458ce0be258de58386c547b6a1cf66a56d6aaa232a2"},"centros":null,"data":{}}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const SOURCE='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+const BASE_TITLE=document.title;
+const BASE={
+            "1501": [
+                { id: 1, codigo: "11619", nombre: "Los Trinitarios (Sabatino)", director: "Quircia Buret Montás", telefono: "(829) 669-6624", direccion: "Calle Duarte, sector Los Trinitarios, Los Alcarrizos, Santo Domingo", tanda: "Sabatino" },
+                { id: 2, codigo: "11959", nombre: "Ramón Polanco Taveras (Dominical)", director: "Aurora Arias Ramón", telefono: "(829) 928-6996", direccion: "Calle El Sol No. 50, Sávica, Los Alcarrizos, Santo Domingo", tanda: "Dominical" },
+                { id: 3, codigo: "17100", nombre: "Buenas Nuevas (Sabatino)", director: "Newton Peña García", telefono: "(809) 851-9253", direccion: "Calle Duarte, sector Buenas Nuevas, Los Alcarrizos, Santo Domingo", tanda: "Sabatino" },
+                { id: 4, codigo: "15679", nombre: "Juana Saltitopa (Nocturno)", director: "Rosa Lasen Martínez de Bido", telefono: "(829) 944-9899", direccion: "Calle Duarte, sector Juana Saltitopa, Los Alcarrizos, Santo Domingo", tanda: "Nocturno" },
+                { id: 5, codigo: "13362", nombre: "Aristóteles Andrés Alcántara López (Dominical)", director: "Luis Pérez Lebrón", telefono: "(809) 210-1169", direccion: "Calle Duarte, sector Sávica, Los Alcarrizos, Santo Domingo", tanda: "Dominical" },
+                { id: 6, codigo: "15966", nombre: "Eugenio María de Hostos (Dominical)", director: "Génesis Santos", telefono: "(829) 755-8503", direccion: "Calle Duarte, sector Eugenio María de Hostos, Los Alcarrizos, Santo Domingo", tanda: "Dominical" },
+                { id: 7, codigo: "14153", nombre: "Eugenio María de Hostos (Sabatino)", director: "Milagros Angomas Sánchez", telefono: "(829) 919-4368", direccion: "Calle Duarte, sector Eugenio María de Hostos, Los Alcarrizos, Santo Domingo", tanda: "Sabatino" },
+                { id: 8, codigo: "11560", nombre: "Prof. Rogelio Minaya Polanco (Sabatino)", director: "Luis Rosario Frías", telefono: "(809) 309-0142", direccion: "Calle Juan Pablo Pina Núm 25, Las Mercedes", tanda: "Sabatino" },
+                { id: 9, codigo: "15468", nombre: "Juana Saltitopa (Sabatino)", director: "Juliana García Cruz", telefono: "—", direccion: "Calle Duarte, Los Alcarrizos, Santo Domingo.", tanda: "Sabatino" },
+                { id: 10, codigo: "11882", nombre: "Minerva Mirabal (Sabatino)", director: "Geordano Sánchez Corniel", telefono: "(809) 963-7210", direccion: "Calle La Isabela, Los Alcarrizos, Santo Domingo, República Dominicana.", tanda: "Sabatino" },
+                { id: 11, codigo: "11531", nombre: "Minerva Mirabal (Nocturna)", director: "Fior Pérez Lovera", telefono: "(829) 913-6169", direccion: "Calle La Isabela, Los Alcarrizos, Santo Domingo", tanda: "Nocturna" },
+                { id: 12, codigo: "11574", nombre: "Félix María del Monte (Sabatino)", director: "Diovel Franco Vizcaíno", telefono: "(849) 214-1103", direccion: "Calle El Sol No. 52, Los Alcarrizos, Santo Domingo", tanda: "Sabatino" },
+                { id: 13, codigo: "14695", nombre: "Prof. Rudy María Comas Bautista (Sabatino)", director: "Reynaldo Feliz Torres", telefono: "(829) 649-7697", direccion: "Calle central no 20 villa linda III los Alcarrizos", tanda: "Sabatino" },
+                { id: 14, codigo: "11547", nombre: "Max Henríquez Ureña (Nocturno)", director: "Erika Santana Hernández", telefono: "(809) 653-1185", direccion: "Sector La Unión, Los Alcarrizos, Santo Domingo", tanda: "Nocturno" },
+                { id: 15, codigo: "10201", nombre: "Evaristo Brito Reyes (Sabatino)", director: "Reyes Cornielle Pons", telefono: "(809) 646-5259", direccion: "Calle San Rafael, los Alcarrizos", tanda: "Sabatino" },
+                { id: 16, codigo: "13404", nombre: "Gregorio Urbano Gilbert Suero (Sabatino)", director: "—", telefono: "—", direccion: "C/N Esq. B #8 Las Colinas del Norte Pantoja", tanda: "Sabatino" },
+                { id: 17, codigo: "15516", nombre: "Abigail Mejía (Dominical)", director: "—", telefono: "—", direccion: "Calle principal nu 140 la cuaba pedro Brand", tanda: "Dominical" },
+                { id: 18, codigo: "17117", nombre: "Max Henríquez Ureña (Sabatino)", director: "—", telefono: "—", direccion: "C/ HATO NUEVO # 34, los Alcarrizos", tanda: "Sabatino" }
+            ],
+            "1502": [
+                { id: 1, codigo: "10384", nombre: "República Dominicana", tanda: "Nocturna", director: "Ana Mercedes Siri Rodríguez", telefono: "(829) 450-4919", direccion: "C/ Seibo esq. Francisco Villa Espesa #100", dinamizador: "Asignado 15-02" },
+                { id: 2, codigo: "10383", nombre: "República Dominicana", tanda: "Sabatino", director: "Ángel Ciprian", telefono: "(829) 491-1397", direccion: "C/ Seibo esq. Francisco Villa Espesa #100", dinamizador: "Asignado 15-02" },
+                { id: 3, codigo: "10232", nombre: "Aida Cartagena Portalatín", tanda: "Nocturna", director: "Yokasta María Altagracia Peña", telefono: "(809) 966-9964", direccion: "Sector La Zurza, C/ Los Restauradores esq. Máximo Gómez", dinamizador: "Asignado 15-02" },
+                { id: 4, codigo: "12320", nombre: "Aida Cartagena Portalatín", tanda: "Sabatino", director: "María Carolina De los Santos", telefono: "(829) 204-0318", direccion: "Sector La Zurza, C/ Los Restauradores esq. Máximo Gómez", dinamizador: "Asignado 15-02" },
+                { id: 5, codigo: "05284", nombre: "Rep. de Haití", tanda: "Sabatino", director: "Alberto Peña", telefono: "(829) 558-5060", direccion: "C/ Josefa Brea, Ensanche Luperón", dinamizador: "Asignado 15-02" },
+                { id: 6, codigo: "09998", nombre: "Santa Ana", tanda: "Nocturno", director: "Odalis Mateo", telefono: "(809) 819-8081", direccion: "Sector Gualey, C/ Morgan", dinamizador: "Asignado 15-02" },
+                { id: 7, codigo: "08853", nombre: "República de Perú", tanda: "Sabatino", director: "Humberto Antonio Díaz", telefono: "(809) 766-2992", direccion: "C/ 27 de Febrero esq. Josefa Brea", dinamizador: "Asignado 15-02" },
+                { id: 8, codigo: "17139", nombre: "Rep. de Honduras", tanda: "Sabatino", director: "Juana Adames", telefono: "(849) 517-8170", direccion: "C/ Albert Tomás, Sector María Auxiliadora", dinamizador: "Asignado 15-02" }
+            ],
+            "1503": [
+                { id: 1, codigo: "13441", nombre: "República de Argentina", tanda: "Dominical", director: "Willy Manuel Luis", telefono: "809-866-1527", direccion: "Calle Montecristi No. 2, San Carlos", dinamizador: "No asignado / Vacante" },
+                { id: 2, codigo: "14131", nombre: "Obrera La Salle", tanda: "Nocturno", director: "Reyna Valdez", telefono: "809-902-6549", direccion: "Av. Simón Bolívar #807", dinamizador: "No asignado / Vacante" },
+                { id: 3, codigo: "12595", nombre: "Unión Panamericana", tanda: "Sabatino", director: "Victorino Germosén", telefono: "809-409-2679", direccion: "Paseo de los Periodistas, Ensanche Miraflores", dinamizador: "No asignado / Vacante" },
+                { id: 4, codigo: "14132", nombre: "El Millón", tanda: "Sabatino", director: "Daniela Matos", telefono: "829-747-2057", direccion: "Plaza de la Cultura, Esq. Bellas Artes #47, El Millón", dinamizador: "No asignado / Vacante" },
+                { id: 5, codigo: "10000", nombre: "Belisario Peguero Guerrero", tanda: "Sabatino", director: "Alex Alcántara", telefono: "829-870-5134", direccion: "Av. Abraham Lincoln, Esq. Independencia", dinamizador: "No asignado / Vacante" },
+                { id: 6, codigo: "14130", nombre: "Antonio Duvergé", tanda: "Sabatino", director: "Dionicio A. García", telefono: "809-657-9046", direccion: "C/ Correa y Cidrón, Esq. Del Valle, Honduras", dinamizador: "No asignado / Vacante" },
+                { id: 7, codigo: "13123", nombre: "República de Chile", tanda: "Sabatino", director: "Gilberto Germán", telefono: "829-519-8617", direccion: "C/ Montecristi No. 2, San Carlos", dinamizador: "No asignado / Vacante" }
+            ],
+            "1504": [
+                { id: 1, codigo: "10204", nombre: "Dr. Manuel Antonio Tejada Florentino", tanda: "Nocturno", director: "Licdo. Nicolás González", telefono: "849-214-1132", direccion: "Calle D & Calle B, Esq. C/N. N, Los Ríos", dinamizador: "No asignado / Vacante" },
+                { id: 2, codigo: "04967", nombre: "Costa Rica", tanda: "Sabatino", director: "Licdo. Amaury Feliz", telefono: "849-255-5816", direccion: "Calle D & Calle B, Esq. C/N. N, Los Ríos", dinamizador: "No asignado / Vacante" },
+                { id: 3, codigo: "10191", nombre: "María Fania Encarnación", tanda: "Sabatino", director: "Licda. Miguelina Collado", telefono: "829-938-6134", direccion: "C/1era No. 1, La Agustinita", dinamizador: "No asignado / Vacante" },
+                { id: 4, codigo: "16868", nombre: "José Bordas Valdez", tanda: "Sabatino", director: "Lcda. Yari Pichardo", telefono: "829-603-1047", direccion: "C/1ra #71, Los Ángeles, Km 13 Autopista Duarte", dinamizador: "No asignado / Vacante" },
+                { id: 5, codigo: "10198", nombre: "Benito Juárez", tanda: "Sabatino", director: "Licda. Evelin Marte", telefono: "849-206-2765", direccion: "Av. Nicolás de Ovando #485, Cristo Rey", dinamizador: "No asignado / Vacante" },
+                { id: 6, codigo: "13032", nombre: "Puerto Isabela", tanda: "Dominical", director: "Licda. Miriam Soto", telefono: "829-601-1637", direccion: "Amelia Francis, Esq. Lorenzo Despradel, Los Prados", dinamizador: "No asignado / Vacante" },
+                { id: 7, codigo: "14143", nombre: "Arroyo Hondo", tanda: "Sabatino", director: "Licda. Jordania Simón", telefono: "809-988-4609", direccion: "Av. Arroyo Hondo", dinamizador: "No asignado / Vacante" },
+                { id: 8, codigo: "10148", nombre: "Francisco Ulises Domínguez", tanda: "Sabatino", director: "Licda. Esperanza Vásquez", telefono: "809-393-8314", direccion: "C/1ra Esq. Manuel Flores Cabrera, La Agustinita", dinamizador: "No asignado / Vacante" },
+                { id: 9, codigo: "12631", nombre: "Jesús Maestro PREPARA", tanda: "Nocturno", director: "Licdo. Félix Valoy", telefono: "809-978-8546", direccion: "C/ Emma Balaguer #5, Los Girasoles", dinamizador: "No asignado / Vacante" },
+                { id: 10, codigo: "14800", nombre: "Atanasio Aragonés Álvarez", tanda: "Sabatino", director: "Licdo. José Manuel Suero", telefono: "829-960-9367", direccion: "C/ Emma Balaguer #5, Los Girasoles", dinamizador: "No asignado / Vacante" }
+            ],
+            "1505": [
+                { id: 1, codigo: "14146", nombre: "Buenos Aires", tanda: "Dominical", director: "Jafet Belliard", telefono: "809-545-1041", direccion: "Av. México, Buenos Aires", dinamizador: "No asignado / Vacante" },
+                { id: 2, codigo: "12937", nombre: "Manresa", tanda: "Dominical", director: "Evelyn Montaño", telefono: "809-803-8204", direccion: "Av. Isabel Aguiar #85, Herrera", dinamizador: "No asignado / Vacante" },
+                { id: 3, codigo: "13563", nombre: "Manoguayabo", tanda: "Dominical", director: "Esperien Jean Pérez", telefono: "829-205-0909", direccion: "Av. Los Beisbolistas, Manoguayabo", dinamizador: "No asignado / Vacante" },
+                { id: 4, codigo: "12372", nombre: "Manresa", tanda: "Sabatino", director: "Plácido Asunción", telefono: "849-785-0834", direccion: "Av. Isabel Aguiar #85, Herrera", dinamizador: "No asignado / Vacante" },
+                { id: 5, codigo: "15287", nombre: "Eladio Peña de la Rosa", tanda: "Dominical", director: "Kenia Martínez", telefono: "809-919-4505", direccion: "Venezuela #10, Ens. Altagracia", dinamizador: "No asignado / Vacante" },
+                { id: 6, codigo: "10736", nombre: "Rosario Evangelina Solano", tanda: "Sabatino", director: "Jael Polanco", telefono: "829-589-7295", direccion: "Principal, Hato Nuevo, Manoguayabo", dinamizador: "No asignado / Vacante" },
+                { id: 7, codigo: "17119", nombre: "Otilio Virgil Díaz", tanda: "Sabatino", director: "Brígida A. Tejada Morillo", telefono: "849-864-1030", direccion: "C/ Los Claveles #2B, Nuevo Cambolla", dinamizador: "No asignado / Vacante" },
+                { id: 8, codigo: "17118", nombre: "Jesús Bienvenido del Castillo", tanda: "Sabatino", director: "Violeta Pérez", telefono: "809-627-1485", direccion: "Batey Bienvenido", dinamizador: "No asignado / Vacante" },
+                { id: 9, codigo: "17046", nombre: "Dra. Ramona Coronado Peña", tanda: "Nocturno", director: "Milton Castillo", telefono: "809-906-7769", direccion: "CCM, Manoguayabo", dinamizador: "No asignado / Vacante" },
+                { id: 10, codigo: "10632", nombre: "Prof. Rafael Alberto Pérez", tanda: "Nocturno", director: "Carmen Cristina Beltre", telefono: "849-203-0513", direccion: "Barahona #79, Palavé, Manoguayabo", dinamizador: "No asignado / Vacante" }
+            ],
+            "1506": [
+                { id: 1, codigo: "15518", nombre: "Marino Moreno González", tanda: "Dominical", director: "Bienvenido Laureano Paula", telefono: "(849) 882-5968", direccion: "Pedro Brand", dinamizador: "No asignado / Vacante" },
+                { id: 2, codigo: "14145", nombre: "Pedro Henríquez Ureña", tanda: "Sabatino", director: "Amada Mateo Marte", telefono: "(829) 810-4188 / (809) 559-7628", direccion: "Pedro Brand", dinamizador: "No asignado / Vacante" },
+                { id: 3, codigo: "05670", nombre: "Gregorio Luperón", tanda: "Sabatino", director: "Magnolia Pérez Sierra", telefono: "(849) 342-5521", direccion: "Pedro Brand", dinamizador: "No asignado / Vacante" },
+                { id: 4, codigo: "12592", nombre: "Abigail Mejía", tanda: "Sabatino", director: "Sension Sosa Abad", telefono: "(849) 268-5247", direccion: "Pedro Brand", dinamizador: "No asignado / Vacante" },
+                { id: 5, codigo: "13061", nombre: "Eduardo Brito", tanda: "Sabatino", director: "Danilo Suero Ramírez", telefono: "(809) 264-7342", direccion: "Pedro Brand", dinamizador: "No asignado / Vacante" },
+                { id: 6, codigo: "12616", nombre: "Campamento 16 de Agosto", tanda: "Sabatino", director: "Alyn Medrano Alcántara", telefono: "(809) 313-6949", direccion: "Pedro Brand", dinamizador: "No asignado / Vacante" },
+                { id: 7, codigo: "05669", nombre: "Campamento 16 de Agosto", tanda: "Nocturno", director: "Bienvenida Almanzar Fajardo", telefono: "—", direccion: "Pedro Brand", dinamizador: "No asignado / Vacante" }
+            ]
+        };
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const isoRe=/^\d{4}-\d{2}-\d{2}$/;
+const fmtDate=s=>isoRe.test(s||'')?new Date(+s.slice(0,4),+s.slice(5,7)-1,+s.slice(8)).toLocaleDateString('es-DO',{year:'numeric',month:'long',day:'numeric'}):(s||'');
+const mb=n=>(n/1048576).toFixed(1)+' MB';
+const fname=t=>(t||'informe').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,'_').slice(0,60);
+const newB=()=>({tasks:[],aulas:[],resources:[],reports:[],processes:[],evals:[]});
+const PHASES=['1. Planificar','2. Asignar','3. Ejecutar','4. Evidenciar','5. Evaluar','6. Reportar'];
+const STATES=['Pendiente','En curso','Completado'];
+const CRIT=[['1. Infraestructura y Conectividad','El espacio cuenta con conectividad estable, dispositivos operativos (PDI, laptops, tabletas) y energía accesible para la mediación con tecnologías.'],['2. Integración de Herramientas e IA','El docente integra activamente plataformas interactivas, recursos multimedia e Inteligencia Artificial en el desarrollo de los contenidos.'],['3. Mediación Pedagógica y Trabajo Colaborativo','Promueve la participación activa, interacción interactiva de los estudiantes de PREPARA y el trabajo guiado mediado por tecnologías digitales.'],['4. Producción de Digital y Contenidos','Docentes y estudiantes crean evidencias digitales, tareas en línea, infografías, proyectos o repositorios de materiales educativos.'],['5. Acompañamiento del Dinamizador TIC','El Dinamizador TIC brinda soporte técnico-pedagógico continuo, apoya las clases y garantiza el buen uso de los recursos del aula.']];
+const LV=['No Cumple','En Proceso','Aceptable','Bueno','Excelente'];
+
+/* ===== Especificación de cada sección (formularios y listas) ===== */
+const COLS={
+ tasks:{icon:'fa-user-tie',nuevo:'Nuevo dinamizador / tarea',
+  fields:[{k:'dynamizer',l:'Nombre del dinamizador',req:1},{k:'phone',l:'Teléfono / Celular',ph:'(809) 000-0000'},{k:'task',l:'Tarea asignada / acompañamiento',t:'area',req:1}],
+  title:r=>r.dynamizer,sub:r=>'Tel: '+(r.phone||'—'),body:r=>r.task},
+ aulas:{icon:'fa-brain',nuevo:'Nueva aula / recurso IA',
+  fields:[{k:'title',l:'Nombre del aula virtual / recurso IA',req:1},{k:'desc',l:'Descripción',t:'area'},{k:'link',l:'Enlace de acceso (opcional)',t:'url',ph:'https://...'}],
+  title:r=>r.title,body:r=>r.desc,extra:r=>r.link?`<a class="lnk" target="_blank" rel="noopener" href="${esc(r.link)}"><i class="fa-solid fa-link"></i> ${esc(r.link)}</a>`:''},
+ resources:{icon:'fa-clapperboard',nuevo:'Agregar contenido',
+  fields:[{k:'title',l:'Título del material',req:1},{k:'data',l:'Archivo (documento, PDF, video, imagen…)',t:'file'},{k:'link',l:'O enlace web (YouTube, podcast…)',t:'url',ph:'https://...'}],
+  valid:r=>(r.data||r.link)?'':'Sube un archivo o escribe un enlace web.',
+  title:r=>r.title,extra:r=>(r.data?`<a class="lnk" href="${r.data}" download="${esc(r.dataName||'archivo')}"><i class="fa-solid fa-download"></i> ${esc(r.dataName||'Descargar archivo')}</a>`:'')+(r.link?`<a class="lnk" target="_blank" rel="noopener" href="${esc(r.link)}"><i class="fa-solid fa-link"></i> ${esc(r.link)}</a>`:'')},
+ reports:{icon:'fa-file-lines',nuevo:'Nuevo informe',
+  fields:[{k:'title',l:'Título del informe / evidencia',req:1},{k:'date',l:'Fecha',t:'date'},{k:'content',l:'Contenido, observaciones y resultados',t:'area',h:200,req:1},{k:'photo',l:'Fotografía de evidencia (opcional)',t:'img'}],
+  title:r=>r.title,sub:r=>fmtDate(r.date)+(r.photo?' · con fotografía':''),body:r=>r.content.length>180?r.content.slice(0,180)+'…':r.content},
+ processes:{icon:'fa-list-check',nuevo:'Nueva actividad del proceso',
+  fields:[{k:'title',l:'Actividad (nombre corto)',req:1},{k:'step',l:'Fase del proceso',t:'select',opts:PHASES},{k:'actor',l:'Responsable',req:1,ph:'Ej. Maestra Ana Gómez, Dinamizador TIC…'},{k:'status',l:'Estado',t:'select',opts:STATES},{k:'due',l:'Fecha límite (opcional)',t:'date',opt:1},{k:'description',l:'Descripción y acciones a realizar',t:'area',req:1},{k:'photo',l:'Fotografía / evidencia (opcional)',t:'img'}]},
+ evals:{icon:'fa-clipboard-check',title:r=>`Evaluación: ${r.total}/20 pts (${r.percent}%)`,sub:r=>fmtDate(r.date),body:r=>'Observaciones: '+(r.notes||'Sin observaciones registradas.')}
+};
+const CENTRO={icon:'fa-school',nuevo:'Nuevo centro educativo',fields:[{k:'codigo',l:'Código del centro',req:1},{k:'nombre',l:'Nombre del centro',req:1},{k:'tanda',l:'Tanda / Modalidad',ph:'Sabatino, Dominical, Nocturno…'},{k:'director',l:'Director(a)'},{k:'telefono',l:'Teléfono'},{k:'direccion',l:'Dirección / Ubicación',t:'area',h:60}]};
+const UI={};Object.keys(COLS).forEach(k=>UI[k]={arch:false,q:''});
+
+/* ===== Persistencia: los datos viajan DENTRO de este archivo HTML ===== */
+const idb={db:null,
+ open(){return this.db||(this.db=new Promise((res,rej)=>{const r=indexedDB.open('prepara360',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}))},
+ async get(k){try{const db=await this.open();return await new Promise((res,rej)=>{const q=db.transaction('kv').objectStore('kv').get(k);q.onsuccess=()=>res(q.result);q.onerror=()=>rej()})}catch(e){return null}},
+ async set(k,v){try{const db=await this.open();return await new Promise((res,rej)=>{const t=db.transaction('kv','readwrite');t.objectStore('kv').put(v,k);t.oncomplete=()=>res(true);t.onerror=()=>rej()})}catch(e){return false}}};
+let DB,cur={d:'1505',c:null},fileHandle=null,fileTs=0,lastSave='',tmr,wtmr,saving=false;
+const K=()=>cur.d+'_'+cur.c;
+const bucket=()=>DB.data[K()]||(DB.data[K()]=newB());
+const arr=c=>bucket()[c]||(bucket()[c]=[]);
+const centro=id=>DB.centros[cur.d].find(c=>c.id==(id??cur.c));
+
+function buildHtml(){
+ const json=JSON.stringify(DB).replace(/</g,'\\u003c');
+ return SOURCE.replace(new RegExp('(<script id="prepara-data"[^>]*>)[\\s\\S]*?(</scr'+'ipt>)'),(m,a,b)=>a+json+b);
+}
+function touch(){DB.updatedAt=Date.now();clearTimeout(tmr);tmr=setTimeout(()=>idb.set('draft',DB),300);clearTimeout(wtmr);wtmr=setTimeout(autoWrite,1500);setStatus()}
+function setStatus(){const d=DB.updatedAt>fileTs,el=$('saveState');el.className='save-state '+(d?'dirty':'ok');
+ el.innerHTML=d?'<i class="fa-solid fa-circle"></i> Cambios aún no guardados en el archivo. Pulsa «Guardar» (Ctrl+S).':'<i class="fa-solid fa-circle-check"></i> Todo guardado en el archivo'+(lastSave?' · '+lastSave:'');
+ document.title=(d?'● ':'')+BASE_TITLE}
+async function writeHandle(h){const T=DB.updatedAt,html=buildHtml(),w=await h.createWritable();await w.write(html);await w.close();fileTs=T;lastSave=new Date().toLocaleTimeString('es-DO',{hour:'2-digit',minute:'2-digit'})+' · '+mb(html.length);setStatus()}
+async function autoWrite(){if(!fileHandle||saving)return;try{if(await fileHandle.queryPermission({mode:'readwrite'})==='granted'){saving=true;await writeHandle(fileHandle)}}catch(e){}saving=false}
+function download(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
+function myName(){const n=decodeURIComponent(location.pathname.split('/').pop()||'');return /\.html?$/i.test(n)?n:'PREPARA360_Regional15.html'}
+async function saveFile(){
+ if(window.showSaveFilePicker){
+  try{let h=fileHandle;
+   if(h&&await h.queryPermission({mode:'readwrite'})!=='granted'&&await h.requestPermission({mode:'readwrite'})!=='granted')h=null;
+   if(!h){h=await showSaveFilePicker({suggestedName:myName(),types:[{description:'Documento HTML',accept:{'text/html':['.html','.htm']}}]});fileHandle=h;idb.set('handle',h)}
+   await writeHandle(h);toast('Guardado en el archivo: '+h.name);return}
+  catch(e){if(e&&e.name==='AbortError')return}
+ }
+ const T=DB.updatedAt,html=buildHtml();download(new Blob([html],{type:'text/html'}),myName());fileTs=T;lastSave=new Date().toLocaleTimeString('es-DO',{hour:'2-digit',minute:'2-digit'});setStatus();
+ toast('Archivo descargado. Reemplaza el HTML anterior con este para conservar todo.')}
+function exportJSON(){download(new Blob([JSON.stringify(DB)],{type:'application/json'}),'respaldo_prepara360_'+today()+'.json')}
+async function importJSON(inp){const f=inp.files[0];inp.value='';if(!f)return;
+ try{const d=JSON.parse(await f.text());if(!d.data||!d.centros)throw 0;if(!confirm('Esto reemplazará TODOS los datos actuales por los del respaldo. ¿Continuar?'))return;d.auth=DB.auth||d.auth;DB=d;touch();switchDistrict(cur.d);toast('Respaldo restaurado')}catch(e){toast('El archivo de respaldo no es válido',1)}}
+function migrateLegacy(){let n=0;try{const map={tasks:'tasks',aulas:'aulas',resources:'resources',reports:'reports',processes:'processes',evaluations:'evals'};
+ for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i),m=k&&k.match(/^dist_(\d+)_center_(\d+)_(\w+)$/);if(!m||!map[m[3]])continue;let a;try{a=JSON.parse(localStorage.getItem(k))}catch(e){continue}
+  if(!Array.isArray(a)||!a.length)continue;const b=DB.data[m[1]+'_'+m[2]]||(DB.data[m[1]+'_'+m[2]]=newB());
+  b[map[m[3]]]=a.map(x=>({...x,id:uid(),archived:false,...(m[3]==='resources'?{dataName:x.fileName}:{}),...(m[3]==='processes'?{status:'Pendiente',title:''}:{})}));n+=a.length}}catch(e){}return n}
+
+/* ===== Utilidades de interfaz ===== */
+function toast(m,err){const t=$('toast');t.textContent=m;t.className='show'+(err?' err':'');clearTimeout(t._t);t._t=setTimeout(()=>t.className='',2800)}
+function switchView(id,el){document.querySelectorAll('.view-section').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.nav-links li').forEach(l=>l.classList.remove('active'));el.classList.add('active')}
+function fillCenters(){const s=$('centerSelect');s.innerHTML=DB.centros[cur.d].map(c=>`<option value="${c.id}">${esc(c.codigo+' - '+c.nombre+' ('+(c.tanda||'')+')')}</option>`).join('');s.value=cur.c}
+function switchDistrict(d){cur.d=d;cur.c=DB.centros[d][0].id;document.querySelectorAll('.district-btn').forEach(b=>b.classList.remove('active'));$('btnDist'+d).classList.add('active');fillCenters();resetEval();renderAll()}
+function changeCenter(){cur.c=+$('centerSelect').value;resetEval();renderAll()}
+function delCentro(){const L=DB.centros[cur.d];if(L.length<2){toast('Debe quedar al menos un centro en el distrito.',1);return}const c=centro();
+ if(!confirm(`¿Eliminar el centro «${c.nombre}» y TODOS sus registros? Esta acción no se puede deshacer.`))return;
+ delete DB.data[K()];DB.centros[cur.d]=L.filter(x=>x!==c);cur.c=DB.centros[cur.d][0].id;touch();fillCenters();resetEval();renderAll();toast('Centro eliminado')}
+function renderAll(){renderPanel();['tasks','aulas','resources','reports','evals'].forEach(renderCol);renderBoard()}
+function renderPanel(){const c=centro()||{};['codigo','nombre','director','tanda','telefono','direccion'].forEach(k=>$('lbl_'+k).textContent=c[k]||'—');
+ $('counts').innerHTML=[['tasks','Dinamizadores','fa-chalkboard-user'],['aulas','Aulas / recursos IA','fa-brain'],['resources','Contenidos','fa-clapperboard'],['reports','Informes','fa-file-lines'],['processes','Procesos','fa-list-check'],['evals','Evaluaciones','fa-clipboard-check']].map(([k,l,i])=>`<div class="info-item"><label><i class="fa-solid ${i}"></i> ${l}</label><span>${arr(k).filter(x=>!x.archived).length}</span></div>`).join('')}
+
+/* ===== Listas genéricas: editar, archivar, eliminar ===== */
+function renderCol(col){const C=COLS[col],box=$('crud-'+col);
+ if(!box.dataset.init){box.dataset.init=1;box.innerHTML=`<div class="toolbar">${C.nuevo?`<button class="btn" onclick="openForm('${col}')"><i class="fa-solid fa-plus"></i> ${C.nuevo}</button>`:''}<input type="search" class="form-control" placeholder="Buscar…" oninput="UI.${col}.q=this.value.toLowerCase();renderList('${col}')"><label class="chk"><input type="checkbox" onchange="UI.${col}.arch=this.checked;renderList('${col}')"> Ver archivados <span id="na-${col}"></span></label></div><ul class="item-list" id="ul-${col}"></ul>`}
+ renderList(col)}
+function renderList(col){const C=COLS[col],u=UI[col],all=arr(col);$('na-'+col).textContent='('+all.filter(x=>x.archived).length+')';
+ const rows=all.filter(r=>(u.arch||!r.archived)&&(!u.q||JSON.stringify([C.title(r),C.sub?C.sub(r):'',C.body?C.body(r):'']).toLowerCase().includes(u.q)));
+ $('ul-'+col).innerHTML=rows.length?rows.map(r=>itemHtml(col,r)).join(''):'<li style="padding:12px;color:var(--text-muted);font-size:13px">No hay registros para mostrar.</li>'}
+function itemHtml(col,r){const C=COLS[col];return `<li class="list-item${r.archived?' arch':''}"><div class="list-item-left" style="align-items:flex-start"><i class="fa-solid ${C.icon}" style="color:var(--secondary);font-size:18px;margin-top:3px"></i><div><strong style="font-size:14px;display:block">${esc(C.title(r))}${r.archived?' <span class="badge">Archivado</span>':''}</strong>${C.sub?`<span class="muted">${esc(C.sub(r))}</span>`:''}${C.body&&C.body(r)?`<p class="body">${esc(C.body(r))}</p>`:''}${C.extra?C.extra(r):''}</div></div>
+ <div class="acts">${col==='reports'?`<button class="btn btn-sm btn-dark" onclick="viewReport('${r.id}')"><i class="fa-solid fa-eye"></i> Ver / Descargar</button>`:''}<button class="btn btn-sm btn-light" onclick="editItem('${col}','${r.id}')"><i class="fa-solid fa-pen"></i> Editar</button><button class="icon-btn edit" title="${r.archived?'Restaurar':'Archivar'}" onclick="archItem('${col}','${r.id}')"><i class="fa-solid ${r.archived?'fa-box-open':'fa-box-archive'}"></i></button><button class="icon-btn delete" title="Eliminar" onclick="delItem('${col}','${r.id}')"><i class="fa-solid fa-trash"></i></button></div></li>`}
+function editItem(col,id){col==='evals'?loadEval(id):openForm(col,id)}
+function archItem(col,id){const r=arr(col).find(x=>x.id===id);r.archived=!r.archived;r.updatedAt=Date.now();touch();renderAll();toast(r.archived?'Archivado':'Restaurado')}
+function delItem(col,id){if(!confirm('¿Eliminar definitivamente este registro? Esta acción no se puede deshacer.'))return;bucket()[col]=arr(col).filter(x=>x.id!==id);touch();renderAll();toast('Eliminado')}
+
+/* ===== Formulario único (agregar / editar) ===== */
+let FC=null;
+function fieldHtml(f,rec,base){const id='f_'+f.k;let v=base[f.k];
+ if(f.t==='date')v=isoRe.test(v||'')?v:((rec||f.opt)?'':today());else if(v==null)v='';
+ if(f.t==='area')return `<textarea id="${id}" class="form-control" style="min-height:${f.h||90}px" placeholder="${esc(f.ph||'')}">${esc(v)}</textarea>`;
+ if(f.t==='select')return `<select id="${id}" class="form-control">${f.opts.map(o=>`<option ${o===v?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
+ if(f.t==='img'||f.t==='file')return (v?(f.t==='img'?`<img src="${v}" class="process-img-preview">`:`<small>Actual: ${esc(base[f.k+'Name']||'archivo')}</small>`)+` <label class="chk"><input type="checkbox" id="${id}_rm"> Quitar</label>`:'')+`<input type="file" id="${id}" class="form-control" ${f.t==='img'?'accept="image/*"':''}>`;
+ return `<input type="${f.t||'text'}" id="${id}" class="form-control" value="${esc(v)}" placeholder="${esc(f.ph||'')}">`}
+function openForm(col,id,pre){const S=col==='centro'?CENTRO:COLS[col],rec=id!=null?(col==='centro'?centro(id):arr(col).find(x=>x.id===id)):null;
+ FC={col,S,rec};const base=rec||pre||{};
+ $('formTitle').innerHTML=`<i class="fa-solid ${S.icon}"></i> ${rec?'Editar registro':S.nuevo}`;
+ $('formFields').innerHTML=S.fields.map(f=>`<div class="form-group"><label for="f_${f.k}">${f.l}${f.req?' *':''}</label>${fieldHtml(f,rec,base)}</div>`).join('');
+ $('formModal').classList.add('active');const first=$('formFields').querySelector('input,textarea,select');first&&first.focus()}
+function closeForm(){$('formModal').classList.remove('active');FC=null}
+function readImg(file,max=1280,q=.78){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',q))};im.onerror=rej;im.src=r.result};r.onerror=rej;r.readAsDataURL(file)})}
+function readFile(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
+async function saveForm(){const {col,S,rec:old}=FC,rec={...(old||{})};
+ for(const f of S.fields){const el=$('f_'+f.k);
+  if(f.t==='img'||f.t==='file'){const file=el.files[0];
+   if(file){if(f.t==='file'&&file.size>10e6&&!confirm(`Este archivo pesa ${mb(file.size)} y hará más pesado el HTML. ¿Agregarlo de todos modos?`))return;
+    try{rec[f.k]=f.t==='img'?await readImg(file):await readFile(file)}catch(e){toast('No se pudo leer el archivo',1);return}rec[f.k+'Name']=file.name}
+   else if($('f_'+f.k+'_rm')&&$('f_'+f.k+'_rm').checked){rec[f.k]='';rec[f.k+'Name']=''}}
+  else{let v=el.value.trim();if(f.t==='date'&&!v&&!f.opt)v=(old&&old[f.k])||today();rec[f.k]=v}
+  if(f.req&&!rec[f.k]){toast('Falta completar: '+f.l,1);el.focus();return}}
+ const m=S.valid&&S.valid(rec);if(m){toast(m,1);return}
+ rec.updatedAt=Date.now();
+ if(col==='centro'){const L=DB.centros[cur.d];if(old)Object.assign(old,rec);else{rec.id=Math.max(0,...L.map(c=>c.id))+1;L.push(rec);cur.c=rec.id}fillCenters()}
+ else{const A=arr(col);if(old)A[A.indexOf(old)]=rec;else{rec.id=uid();rec.archived=false;col==='reports'?A.unshift(rec):A.push(rec)}}
+ touch();closeForm();renderAll();toast('Guardado correctamente')}
+
+/* ===== Planes y Procesos (tablero por fases) ===== */
+const pct=ps=>ps.length?Math.round(ps.filter(p=>p.status==='Completado').length/ps.length*100):0;
+function renderBoard(){const ps=arr('processes'),live=ps.filter(p=>!p.archived),vis=ps.filter(p=>UI.processes.arch||!p.archived),n=pct(live);
+ $('procSummary').innerHTML=`<div style="display:flex;justify-content:space-between;font-size:13px"><strong style="color:var(--primary)">Avance general del centro</strong><span>${n}% · ${live.filter(p=>p.status==='Completado').length} de ${live.length} completadas</span></div><div class="progress"><i style="width:${n}%"></i></div>`;
+ $('board').innerHTML=PHASES.map(ph=>{const it=vis.filter(p=>p.step===ph);return `<div class="col"><h4>${ph}<span class="badge">${it.length}</span></h4>${it.map(card).join('')||'<span class="muted" style="margin-bottom:8px">Sin actividades</span>'}<button class="btn btn-sm btn-light" style="width:100%;justify-content:center" onclick="openForm('processes',null,{step:'${ph}',status:'Pendiente'})"><i class="fa-solid fa-plus"></i> Agregar</button></div>`}).join('')}
+function card(p){const st=p.status||'Pendiente',i=PHASES.indexOf(p.step),late=p.due&&p.due<today()&&st!=='Completado',d=p.description||'';
+ return `<div class="pcard st-${STATES.indexOf(st)}${p.archived?' arch':''}"><strong>${esc(p.title||d.slice(0,50))}</strong><span class="muted"><i class="fa-solid fa-user"></i> ${esc(p.actor)}</span>${p.due?`<span class="muted" style="${late?'color:var(--danger);font-weight:600':''}"><i class="fa-solid fa-calendar"></i> ${fmtDate(p.due)}${late?' (vencida)':''}</span>`:''}${p.title&&d?`<p class="body">${esc(d)}</p>`:''}${p.photo?`<img src="${p.photo}" class="process-img-preview">`:''}
+ <div class="acts" style="margin-top:8px;justify-content:flex-start"><button class="badge" title="Cambiar estado" onclick="cycleState('${p.id}')">${st}</button><button class="icon-btn" title="Fase anterior" ${i<1?'disabled':''} onclick="movePhase('${p.id}',-1)"><i class="fa-solid fa-chevron-left"></i></button><button class="icon-btn" title="Fase siguiente" ${i>4?'disabled':''} onclick="movePhase('${p.id}',1)"><i class="fa-solid fa-chevron-right"></i></button><button class="icon-btn edit" title="Editar" onclick="editItem('processes','${p.id}')"><i class="fa-solid fa-pen"></i></button><button class="icon-btn edit" title="${p.archived?'Restaurar':'Archivar'}" onclick="archItem('processes','${p.id}')"><i class="fa-solid ${p.archived?'fa-box-open':'fa-box-archive'}"></i></button><button class="icon-btn delete" title="Eliminar" onclick="delItem('processes','${p.id}')"><i class="fa-solid fa-trash"></i></button></div></div>`}
+const proc=id=>arr('processes').find(x=>x.id===id);
+function cycleState(id){const p=proc(id);p.status=STATES[(STATES.indexOf(p.status||'Pendiente')+1)%3];p.updatedAt=Date.now();touch();renderAll()}
+function movePhase(id,d){const p=proc(id);p.step=PHASES[Math.max(0,Math.min(5,PHASES.indexOf(p.step)+d))];p.updatedAt=Date.now();touch();renderAll()}
+
+/* ===== Evaluación ===== */
+let editEv=null;
+function buildEval(){$('evalBody').innerHTML=CRIT.map(c=>`<tr><td><strong>${c[0]}</strong></td><td>${c[1]}</td><td><select class="eval-select" onchange="calcScore()">${LV.map((l,v)=>`<option value="${v}" ${v===4?'selected':''}>${v} - ${l}</option>`).join('')}</select></td><td class="eval-status" style="font-weight:600;color:var(--primary)"></td></tr>`).join('')}
+function calcScore(){let t=0;document.querySelectorAll('.eval-select').forEach(s=>{t+=+s.value;s.closest('tr').querySelector('.eval-status').textContent=LV[+s.value]});$('totalScore').textContent=`${t} / 20 pts (${Math.round(t/20*100)}%)`}
+function saveEval(){const sc=[...document.querySelectorAll('.eval-select')].map(s=>+s.value),total=sc.reduce((a,b)=>a+b,0),rec={scores:sc,total,percent:Math.round(total/20*100),notes:$('evalNotes').value.trim(),updatedAt:Date.now()};
+ if(editEv)Object.assign(arr('evals').find(x=>x.id===editEv),rec);else arr('evals').unshift({...rec,id:uid(),date:today(),archived:false});
+ touch();resetEval();renderAll();toast('Evaluación guardada')}
+function loadEval(id){const e=arr('evals').find(x=>x.id===id);editEv=id;document.querySelectorAll('.eval-select').forEach((s,i)=>s.value=(e.scores||[])[i]??4);$('evalNotes').value=e.notes||'';calcScore();
+ $('evalEditBar').style.display='block';$('evalEditBar').textContent='Editando la evaluación del '+fmtDate(e.date)+'. Cambia lo necesario y pulsa «Actualizar evaluación».';$('btnEval').innerHTML='<i class="fa-solid fa-floppy-disk"></i> Actualizar evaluación';$('btnEvalCancel').style.display='';window.scrollTo(0,0);$('evaluacion').scrollIntoView()}
+function resetEval(){editEv=null;buildEval();$('evalNotes').value='';$('evalEditBar').style.display='none';$('btnEval').innerHTML='<i class="fa-solid fa-floppy-disk"></i> Guardar evaluación';$('btnEvalCancel').style.display='none';calcScore()}
+
+/* ===== Informes: vista previa, Word y PDF ===== */
+let curDoc=null;
+const org=()=>`Regional 15 — Distrito ${cur.d} — Programa PREPARA 360`;
+const cmeta=()=>{const c=centro();return [`Centro Educativo: ${c.codigo} - ${c.nombre} (${c.tanda||''})`,`Director(a): ${c.director||'—'}`]};
+function viewReport(id){const r=arr('reports').find(x=>x.id===id);showDoc({title:r.title,org:org(),meta:[...cmeta(),'Fecha: '+fmtDate(r.date)],blocks:[{text:r.content,photo:r.photo}]})}
+function procReport(){const ps=arr('processes').filter(p=>!p.archived);if(!ps.length){toast('No hay procesos para incluir en el informe.',1);return}
+ showDoc({title:'Informe de Planes y Procesos',org:org(),meta:[...cmeta(),'Fecha: '+fmtDate(today()),'Avance general: '+pct(ps)+'%'],blocks:PHASES.flatMap(ph=>ps.filter(p=>p.step===ph).map(p=>({h:ph+' — '+(p.title||'Actividad'),text:`Responsable: ${p.actor}\nEstado: ${p.status||'Pendiente'}${p.due?'\nFecha límite: '+fmtDate(p.due):''}\n\n${p.description||''}`,photo:p.photo})))})}
+function showDoc(d){curDoc=d;$('printableReportArea').innerHTML=bodyHtml(d,p=>p);$('reportModal').classList.add('active')}
+function closeModal(){$('reportModal').classList.remove('active')}
+function bodyHtml(d,src){return `<div style="border-bottom:2px solid #1e3a8a;padding-bottom:10px;margin-bottom:16px"><div style="font-size:11px;color:#3b82f6;font-weight:bold;text-transform:uppercase">Ministerio de Educación de la República Dominicana</div><div style="font-size:11px;color:#64748b;text-transform:uppercase">${esc(d.org)}</div></div><h1 style="color:#1e3a8a;font-size:22px;margin:0 0 8px">${esc(d.title)}</h1><div style="background:#f1f5f9;padding:10px;font-size:12px;line-height:1.6;margin-bottom:14px">${d.meta.map(esc).join('<br>')}</div>`+
+ d.blocks.map(b=>`${b.h?`<h3 style="color:#1e3a8a;font-size:15px;margin:16px 0 4px">${esc(b.h)}</h3>`:''}${b.text?`<div style="font-size:14px;line-height:1.6">${esc(b.text).replace(/\n/g,'<br>')}</div>`:''}${b.photo?`<p><b style="font-size:12px;color:#1e3a8a">Fotografía de evidencia</b><br><img src="${src(b.photo)}" style="max-width:400px;max-height:300px"></p>`:''}`).join('')}
+function exportWord(d){if(!d)return;const imgs=[],html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>'+esc(d.title)+'</title></head><body style="font-family:Arial,sans-serif;color:#1e293b">'+bodyHtml(d,p=>{imgs.push(p);return 'file:///img'+imgs.length+'.jpg'})+'</body></html>';
+ const B='----=_NextPart_prepara360',wrap=s=>s.replace(/.{1,76}/g,'$&\r\n');
+ let m=`MIME-Version: 1.0\r\nContent-Type: multipart/related; boundary="${B}"; type="text/html"\r\n\r\n--${B}\r\nContent-Type: text/html; charset="utf-8"\r\nContent-Transfer-Encoding: base64\r\nContent-Location: file:///doc.htm\r\n\r\n${wrap(btoa(unescape(encodeURIComponent(html))))}\r\n`;
+ imgs.forEach((p,i)=>{const x=p.match(/^data:(image\/[\w+.-]+);base64,(.*)$/);if(x)m+=`--${B}\r\nContent-Type: ${x[1]}\r\nContent-Transfer-Encoding: base64\r\nContent-Location: file:///img${i+1}.jpg\r\n\r\n${wrap(x[2])}\r\n`});
+ download(new Blob([m+'--'+B+'--'],{type:'application/msword'}),fname(d.title)+'.doc')}
+const imgSize=s=>new Promise(r=>{const i=new Image();i.onload=()=>r({w:i.width,h:i.height});i.onerror=()=>r({w:4,h:3});i.src=s});
+async function exportPDF(d){if(!d)return;if(!window.jspdf){toast('No se pudo cargar el generador de PDF (se requiere conexión a internet la primera vez).',1);return}
+ const pdf=new window.jspdf.jsPDF({unit:'mm',format:'a4'}),M=15,TW=180;let y=M;
+ const need=h=>{if(y+h>282){pdf.addPage();y=M}};
+ const txt=(t,sz,b,col,lh)=>{pdf.setFont('helvetica',b?'bold':'normal');pdf.setFontSize(sz);pdf.setTextColor(...col);for(const l of pdf.splitTextToSize(t,TW)){need(lh);pdf.text(l,M,y);y+=lh}};
+ txt('MINISTERIO DE EDUCACIÓN DE LA REPÚBLICA DOMINICANA',10,1,[59,130,246],5);txt(d.org.toUpperCase(),9,0,[100,116,139],5);
+ pdf.setDrawColor(30,58,138);pdf.setLineWidth(.5);pdf.line(M,y,M+TW,y);y+=8;txt(d.title,16,1,[30,41,59],7);y+=2;d.meta.forEach(t=>txt(t,10,0,[30,41,59],5));y+=3;
+ for(const b of d.blocks){if(b.h){y+=3;txt(b.h,12,1,[30,58,138],6)}if(b.text)txt(b.text,11,0,[30,41,59],5.5);
+  if(b.photo){const s=await imgSize(b.photo);let w=Math.min(110,TW),h=w*s.h/s.w;if(h>110){h=110;w=h*s.w/s.h}need(h+10);y+=2;
+   try{pdf.addImage(b.photo,/image\/png/.test(b.photo.slice(0,20))?'PNG':'JPEG',M,y,w,h);y+=h+4}catch(e){}}y+=3}
+ const n=pdf.getNumberOfPages();for(let i=1;i<=n;i++){pdf.setPage(i);pdf.setFontSize(8);pdf.setTextColor(100,116,139);pdf.text(`Página ${i} de ${n}`,105,291,{align:'center'})}
+ pdf.save(fname(d.title)+'.pdf')}
+
+
+/* ===== Acceso con contraseña ===== */
+function sha256(m){const r=(x,n)=>(x>>>n)|(x<<(32-n)),K=[],H=[];let p=2,c=0;
+ for(;c<64;p++){let ok=1;for(let d=2;d*d<=p;d++)if(p%d===0){ok=0;break}if(!ok)continue;if(c<8)H[c]=(Math.pow(p,.5)%1)*4294967296|0;K[c]=(Math.pow(p,1/3)%1)*4294967296|0;c++}
+ const b=unescape(encodeURIComponent(m)),l=b.length,w=[];for(let i=0;i<l;i++)w[i>>2]|=b.charCodeAt(i)<<(24-(i%4)*8);
+ w[l>>2]|=0x80<<(24-(l%4)*8);w[(((l+8)>>6)+1)*16-1]=l*8;for(let i=0;i<w.length;i++)w[i]|=0;let h=H.slice();
+ for(let j=0;j<w.length;j+=16){const x=w.slice(j,j+16);let [a,b2,c2,d,e,f,g,hh]=h;
+  for(let i=0;i<64;i++){if(i>=16){const s0=r(x[i-15],7)^r(x[i-15],18)^(x[i-15]>>>3),s1=r(x[i-2],17)^r(x[i-2],19)^(x[i-2]>>>10);x[i]=(x[i-16]+s0+x[i-7]+s1)|0}
+   const t1=(hh+(r(e,6)^r(e,11)^r(e,25))+((e&f)^(~e&g))+K[i]+x[i])|0,t2=((r(a,2)^r(a,13)^r(a,22))+((a&b2)^(a&c2)^(b2&c2)))|0;
+   hh=g;g=f;f=e;e=(d+t1)|0;d=c2;c2=b2;b2=a;a=(t1+t2)|0}
+  h=[h[0]+a,h[1]+b2,h[2]+c2,h[3]+d,h[4]+e,h[5]+f,h[6]+g,h[7]+hh].map(v=>v|0)}
+ return h.map(v=>(v>>>0).toString(16).padStart(8,'0')).join('')}
+const hp=(pw,s)=>{let h=sha256(s+pw);for(let i=0;i<3000;i++)h=sha256(h+s+pw);return h};
+const mkAuth=pw=>{const s=uid()+uid();return {username:(DB.auth&&DB.auth.username)||'Edwin Ruiz',salt:s,hash:hp(pw,s)}};
+const okPwd=(pw,user=(DB.auth&&DB.auth.username))=>!!(DB.auth&&String(user||'').trim()===DB.auth.username&&hp(pw,DB.auth.salt)===DB.auth.hash);
+function gate(){let ok=0;try{ok=sessionStorage.getItem('p360ok')===DB.docId}catch(e){}if(ok||!DB.auth)$('login').style.display='none';else{$('login').style.display='flex';$('username').focus()}}
+function doLogin(){if(okPwd($('pwd').value,$('username').value)){try{sessionStorage.setItem('p360ok',DB.docId)}catch(e){}$('pwd').value='';$('lerr').textContent='';$('login').style.display='none'}else{$('lerr').textContent='Usuario o contraseña incorrectos';$('pwd').select()}}
+function logout(){try{sessionStorage.removeItem('p360ok')}catch(e){}gate()}
+function changePwd(){const a=prompt('Contraseña actual:');if(a===null)return;if(!okPwd(a)){toast('Contraseña actual incorrecta',1);return}const n=prompt('Nueva contraseña (mínimo 6 caracteres):');if(n===null)return;if(n.length<6){toast('Debe tener al menos 6 caracteres',1);return}if(prompt('Repite la nueva contraseña:')!==n){toast('Las contraseñas no coinciden',1);return}DB.auth=mkAuth(n);touch();toast('Contraseña cambiada. Pulsa «Guardar» para que quede en el archivo.')}
+
+/* ===== Arranque ===== */
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();saveFile()}if(e.key==='Escape'){closeForm();closeModal()}});
+window.addEventListener('beforeunload',e=>{if(DB&&DB.updatedAt>fileTs){e.preventDefault();e.returnValue=''}});
+(async function init(){
+ try{DB=JSON.parse($('prepara-data').textContent)}catch(e){DB=null}
+ if(!DB||!DB.docId)DB={docId:'p360-'+uid(),updatedAt:0,centros:null,data:{}};
+ fileTs=DB.updatedAt||0;DB.data=DB.data||{};const embAuth=DB.auth;
+ const dr=await idb.get('draft');
+ if(dr&&dr.docId===DB.docId&&dr.updatedAt>fileTs){DB=dr;setTimeout(()=>toast('Se recuperaron cambios que no estaban guardados en el archivo. Pulsa «Guardar».'),400)}
+ try{fileHandle=await idb.get('handle')}catch(e){}
+ DB.auth=embAuth||DB.auth;if(!DB.centros)DB.centros=JSON.parse(JSON.stringify(BASE));
+ if(!fileTs&&!dr&&migrateLegacy()){DB.updatedAt=Date.now();setTimeout(()=>toast('Se importaron los datos que tenías guardados en este navegador. Pulsa «Guardar» para llevarlos dentro del archivo.'),400)}
+ switchDistrict('1505');setStatus();gate()})();
+</script>
+</body>
+</html>
